@@ -7,17 +7,10 @@ var primerMetodo = function() {
    });
    return promise;
 };
- 
- uno.then(function(data) {
-   return segundoMetodo(data);
- }).then(function(data) {
-   return tercerMetodo(data);
- }).then(function(data) {
-   console.log(data);
- })
+// const promesa = primerMetodo() --> promesa = instancia de Promise
 
-
-var segundoMetodo = function(datos) {
+var segundoMetodo = function(datos) { 
+// datos va a ser el objeto que devuelve el primer método {num: '123'}
    var promise = new Promise(function(resolve, reject){
       setTimeout(function() {
          console.log('Terminó el segundo método');
@@ -26,7 +19,29 @@ var segundoMetodo = function(datos) {
    });
    return promise;
 };
- 
+
+// primerMetodo() //devuelve una promesa
+//    .then(function(data){
+//       console.log(data);
+//       segundoMetodo(data) // devuelve una promesa
+//          .then(function(data2){
+//             console.log(data2)
+//          })
+//    })
+// FUNCIONA PERO --> ESTA NO ES LA MANERA MÁS OPTIMA DE RESOLVER PORQUE NOS ESTARÍA PASANDO LO DEL CALLBACK HELL
+// ENTONCES:
+// primerMetodo()
+//    .then(function(data) {
+//       console.log(data);
+//       return segundoMetodo(data) 
+//    })
+//    .then(function(data1) {
+//       console.log(data1);
+//    })
+//    .catch(function(err) {
+//       console.log(err);
+//    })
+
 var tercerMetodo = function(datos) {
    var promise = new Promise(function(resolve, reject){
       setTimeout(function() {
