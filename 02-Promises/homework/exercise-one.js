@@ -51,9 +51,7 @@ function problemA () {
 
   // promise version
   promisifiedReadFile('poem-one/stanza-01.txt')
-    .then(stanza => {
-      blue(stanza);
-    })
+    .then(stanza => blue(stanza));
 }
 
 function problemB () {
@@ -78,7 +76,7 @@ promisifiedReadFile('poem-one/stanza-02.txt')
   .then(stanza2 => blue(stanza2))
 
 promisifiedReadFile('poem-one/stanza-03.txt')
-.then(stanza3 => blue(stanza3))
+  .then(stanza3 => blue(stanza3))
 }
 
 function problemC () {
@@ -91,6 +89,7 @@ function problemC () {
    *    (ignora errores)
    *
    */
+
 
   // callback version
   // readFile('poem-one/stanza-02.txt', function (err, stanza2) {
