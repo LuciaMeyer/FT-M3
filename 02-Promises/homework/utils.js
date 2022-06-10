@@ -3,6 +3,7 @@
 var fs = require('fs');
 var Promise = require('bluebird');
 var chalk = require('chalk');
+const { promisify } = require('util');
 
 var utils = {};
 
@@ -24,6 +25,8 @@ utils.promisifiedReadFile = function (filename) {
 		});
 	});
 };
+
+
 
 utils.blue = function (text) {
 	console.log(chalk.blue(text));

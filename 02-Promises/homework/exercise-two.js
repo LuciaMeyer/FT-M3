@@ -36,7 +36,6 @@ function problemA () {
    */
 
   // callback version
-  
   // async.each(['poem-two/stanza-01.txt', 'poem-two/stanza-02.txt'],
   //   function (filename, eachDone) {
   //     readFile(filename, function (err, stanza) {
@@ -51,24 +50,15 @@ function problemA () {
   // );
 
   // promise version
-
-// const promise1 = promisifiedReadFile('poem-two/stanza-01.txt')
-// const promise2 = promisifiedReadFile('poem-two/stanza-02.txt')
-// Promise.all([promise1, promise2])
-//   .then(values => {
-//     blue(values[0])
-//     blue(values[1])
-//     console.log('done')
-//   })
-// si lo resuelvo de esta manera estoy condicionando el orden no importa quien termine primero siempre voy a estar pintando primero la posición 0 y depsues la posición 1, por eso es mejor hacerlo de la siguiente manera:
-
-  const promise1 = promisifiedReadFile('poem-two/stanza-01.txt').then(s=> blue(s));
-  const promise2 = promisifiedReadFile('poem-two/stanza-02.txt').then(s=> blue(s));
-
+  const promise1 = promisifiedReadFile('poem-two/stanza-01.txt')
+  const promise2 = promisifiedReadFile('poem-two/stanza-02.txt')
   Promise.all([promise1, promise2])
-    .then(() => {
+    .then(value => {
+      blue(value[0]);
+      blue(value[1]);
       console.log('done')
     })
+
 }
 
 function problemB () {
@@ -100,14 +90,12 @@ function problemB () {
   // );
 
   // promise version
-  const fileNames = ['poem-two/stanza-01.txt', 'poem-two/stanza-02.txt', 'poem-two/stanza-03.txt', 'poem-two/stanza-04.txt', 'poem-two/stanza-05.txt', 'poem-two/stanza-06.txt', 'poem-two/stanza-07.txt', 'poem-two/stanza-08.txt'];
-  const arrPromises = fileNames.map(fn => promisifiedReadFile(fn).then(stanza => blue(stanza)))
-  // [promise1, promise2, promise2]
-
+  const arrPromises = filenames.map(fn => promisifiedReadFile(fn).then(stanza => blue(stanza)))
   Promise.all(arrPromises)
       .then(() => {
           console.log('done')
       })
+
 }
 
 function problemC () {
@@ -140,15 +128,11 @@ function problemC () {
   // );
 
   // promise version
-  
   for (let i = 1, p= promisifiedReadFile(filenames[0]); i <= filenames.length; i++) {
     p = p.then(stanza => {
       blue(stanza)
-      if(i===filenames.length) {
-        console.log('done');
-      } else {
-        return promisifiedReadFile(filenames[i]);
-      }
+      if(i===filenames.length) console.log('done');
+      else return promisifiedReadFile(filenames[i])
     });
   }
 }
@@ -190,12 +174,10 @@ function problemD () {
   for (let i = 1, p= promisifiedReadFile(filenames[0]); i <= filenames.length; i++) {
     p = p.then(stanza => {
       blue(stanza)
-      if(i===filenames.length) {
-        console.log('done');
-      } else {
-        return promisifiedReadFile(filenames[i]);
-      }
+      if(i===filenames.length) console.log('done');
+      else return promisifiedReadFile(filenames[i]);
     });
+    
     if(i===filenames.length){
       p.catch(err => {
         magenta(new Error(err));

@@ -13,6 +13,7 @@
 
 var Promise = require('bluebird'),
     exerciseUtils = require('./utils');
+const { restore } = require('chai-spies');
 
 var readFile = exerciseUtils.readFile,
     promisifiedReadFile = exerciseUtils.promisifiedReadFile,
@@ -51,7 +52,8 @@ function problemA () {
 
   // promise version
   promisifiedReadFile('poem-one/stanza-01.txt')
-    .then(stanza => blue(stanza));
+    .then(stanza => blue(stanza))
+
 }
 
 function problemB () {
@@ -72,11 +74,13 @@ function problemB () {
   //   blue(stanza3);
   // });
 
-promisifiedReadFile('poem-one/stanza-02.txt')
+  // promise version
+ promisifiedReadFile('poem-one/stanza-02.txt')
   .then(stanza2 => blue(stanza2))
 
-promisifiedReadFile('poem-one/stanza-03.txt')
-  .then(stanza3 => blue(stanza3))
+  promisifiedReadFile('poem-one/stanza-03.txt')
+    .then(stanza3 => blue(stanza3))
+
 }
 
 function problemC () {
@@ -89,7 +93,6 @@ function problemC () {
    *    (ignora errores)
    *
    */
-
 
   // callback version
   // readFile('poem-one/stanza-02.txt', function (err, stanza2) {
@@ -108,8 +111,11 @@ function problemC () {
       blue(stanza2)
       return promisifiedReadFile('poem-one/stanza-03.txt')
     })
-    .then(stanza3 => blue(stanza3))
-    console.log('done');
+    .then(stanza3 => {
+      blue(stanza3)
+      console.log('done')
+    })
+    
 
 }
 
@@ -128,11 +134,8 @@ function problemD () {
   // });
 
   // promise version
-  promisifiedReadFile('poem-one/wrong-file-name.txt')
-    .then(
-      stanza4 => blue(stanza4),
-      err => magenta(new Error(err))
-      )
+ promisifiedReadFile('poem-one/wrong-file-name.txt')
+  .then(stanza => blue(stanza), err => magenta(new Error(err)))
 
 }
 
@@ -160,18 +163,19 @@ function problemE () {
   // promise version
   promisifiedReadFile('poem-one/stanza-03.txt')
     .then(stanza3 => {
-      blue(stanza3)
-      return promisifiedReadFile('poem-one/stanza-04.txt')
+      blue(stanza3);
+      return promisifiedReadFile('poem-one/wrong-file-name.txt');
     })
-    .then(stanza4 => blue(stanza4))
-    .catch(err => magenta(new Error(err)))
+    .then(stanzax => blue(stanzax))
+    .catch(err => magenta(new Error(err)));
+
 }
 
 function problemF () {
   /* * * * * * * * * * * * * * * * * * * * * * * * * * * *
    *
    * F. Lee & loggea el poema uno stanza tres y *DESPUES* lee y loguea la
-   *    stanza cuatro o loggea un error si occrre para cualquiera de las
+   *    stanza cuatro o loggea un error si corre para cualquiera de las
    *    lecturas y siempre loggea 'done' cuando todo haya terminado
    *
    */
@@ -197,16 +201,10 @@ function problemF () {
   promisifiedReadFile('poem-one/stanza-03.txt')
     .then(stanza3 => {
       blue(stanza3)
-      return promisifiedReadFile('poem-one/stanza-04.txt')
+      return promisifiedReadFile('poem-one/wrong-file-name.txt')
     })
-    .then(stanza4 => {
-      blue(stanza4)
-      // console.log('done')
-    })
-    .catch(err => {
-      magenta(new Error(err))
-      // console.log('done')
-    })
-    .finally(() => console.log('done')); 
+    .then(stanzax => blue(stanzax))
+    .catch(err => magenta(new Error(err)))
+    .finally(() => console.log('done'))
 
 }
