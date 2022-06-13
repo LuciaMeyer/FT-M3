@@ -16,6 +16,5 @@ http.createServer( function(req, res){
 	} else{
 		res.writeHead(404); //Ponemos el status del response a 404: Not Found
 		res.end(); //No devolvemos nada más que el estado.
-	}
-	
+	}	
 }).listen(1337, '127.0.0.1');
