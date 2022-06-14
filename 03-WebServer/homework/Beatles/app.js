@@ -25,7 +25,6 @@ var beatles=[
 ]
 
 http.createServer(function(req, res){
-  console.log('hola')
   if(req.url === '/api'){
     res.writeHead(200, {'Content-type' : 'application/json'})
    return res.end(JSON.stringify(beatles))
@@ -42,6 +41,43 @@ http.createServer(function(req, res){
     res.writeHead(404, {'Content-Type' : 'text/plain'})
     return res.end(`${beatle} is not a Beatle!`) 
   }
+
+  if(req.url === '/'){
+    // res.writeHead(200, { 'Content-Type':'text/html' })
+    // var html = fs.readFileSync('./index.html', 'utf8');
+    // res.end(html);
+    fs.readFile('./index.html', function(err,data) {
+      if(err) {
+        res.writeHead(404, {'Content-Type' : 'text/plain'});
+        return res.end('Not found')
+      }
+      res.writeHead(200, {'Content-Type':'text/html'});
+      return res.end(data);
+    });    
+  }
+
+  if( req.url.length > 1 ) { // localhost:1337/John Lennon
+    const beatle = req.url.split('/').pop();
+    const found = beatles.find( b => encodeURI(b.name).toLowerCase() === beatle.toLowerCase())
+    if(!found){
+      res.writeHead(404, {'Content-Type' : 'text/plain'});
+      return res.end('Not found') 
+    }
+    fs.readFile('./beatle.html', 'utf-8', function(err, data){
+      if(err){
+        res.writeHead(404, {'Content-Type' : 'text/plain'});
+        return res.end('Not found')
+      }
+      data = data.replace('{name}', found.name)
+                  .replace('{birthday}', found.birthdate)
+                  .replace('{profilepic}', found.profilePic);
+      res.writeHead(200, {'Content-Type':'text/html'});
+      return res.end(data);
+    });
+  }    
+
+
+
 }).listen(1337, '127.0.0.1')
 
 // substring() extrae caracteres desde indiceA hasta indiceB sin incluirlo
