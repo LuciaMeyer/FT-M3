@@ -44,29 +44,70 @@ $Promise.prototype._internalReject = function(reason) {
 $Promise.prototype.then = function(successCb, errorCb){
     if(typeof successCb !== 'function') successCb = false;
     if(typeof errorCb !== 'function') errorCb = false;
-    this._handlerGroups.push({successCb, errorCb})
+
+    let downstreamPromise = new $Promise(()=>{});
+    this._handlerGroups.push({successCb, errorCb, downstreamPromise});
+
     if(this._state !== 'pending') this._callHandlers();
+    return downstreamPromise;   
 };
 
 
-// mientras una promesa todavía no se haya completado no tengo que invocar, o leer el earreglo de sH o eH por eso tengo que armar un método que permita hacer esa lectura mientras haya info
+/*
+1-tengo que armar un método que permita hacer lectura del arreglo mientras haya info, consumir el arreglo hasta quedar vacío
+mientras una promesa todavía no se haya completado no tengo que invocarlo, o leerlo     
+2-mientra tenga datos en handlerGroups --> [{sH1, eH1, pB}, {sH2, eH2, pC}, {sH3, eH3, pD}, ...]
+3-tomo el primer manejador y evalúo el estado para saber como resolver cada camino {sH1, eH1, pB}
+4-si el estado es fulfilled y tengo siccesscB con el try catch me aseguro que si toma el camino de eH ese error lo captura el catch y voy a ejecutar el reject de la pomesa con ese error capturado
+5-si no hay error tengo 2 caminos, retorna una promesa o un valor
+6- si retorna una promesa esta se resuleve al valor anterior pB = pA.then(sH, eH)
+7- si retorna un valor lo resuelvo con ese valor
+*/
 $Promise.prototype._callHandlers = function() {
-    while(this._handlerGroups.length){
-        let handler = this._handlerGroups.shift() //  tomo el primero [{successCb1, errorCb1}, {successCb2, errorCb2}, ...]
-        if(this._state === 'fulfilled'){
-            if(handler.successCb){
-                handler.successCb(this._value)
-            }
-        } else if(this._state === 'rejected'){
-            if(handler.errorCb){
-                handler.errorCb(this._value)
-            }
+    while(this._handlerGroups.length) {
+        let hd = this._handlerGroups.shift();
+        if(this._state === 'fulfilled') {
+            if(hd.successCb) {
+                try {
+                    let result = hd.successCb(this._value);
+                    if(result instanceof $Promise){ 
+                        return result.then(
+                            sH => hd.downstreamPromise._internalResolve(sH),
+                            eH => hd.downstreamPromise._internalReject(eH) 
+                        )   
+                    } else {
+                        hd.downstreamPromise._internalResolve(result); 
+                    }                 
+                } catch (error) {
+                    hd.downstreamPromise._internalReject(error)
+                }
+           } else {
+            hd.downstreamPromise._internalResolve(this._value);
+           }         
+        } else if(this._state === 'rejected') {
+            if(hd.errorCb){
+                try {
+                    let result = hd.errorCb(this._value);
+                    if(result instanceof $Promise){
+                        return result.then(
+                            sH => hd.downstreamPromise._internalResolve(sH),
+                            eH => hd.downstreamPromise._internalReject(eH) 
+                        ); 
+                    } else {
+                        hd.downstreamPromise._internalResolve(result);
+                    }
+                } catch (error) {
+                    hd.downstreamPromise._internalReject(error);
+                }
+            } else {
+                hd.downstreamPromise._internalReject(this._value);
+            }          
         }
     }
 };
 
 $Promise.prototype.catch = function(errorCb){
-    this.then(null, errorCb)
+    return this.then(null, errorCb)
 };
 
 
