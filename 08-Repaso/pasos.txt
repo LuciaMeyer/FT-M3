@@ -1,0 +1,25 @@
+PASOS PARA CREAR SERVIDOR
+
+1- en consola npm init -y
+2- npm i express
+3- npm i -D nodemon (como dependencia de desarrollo)
+4- creo el index.js donde requiero express, y lo ejecuto, pongo a escuchar la app
+5- en el package.json configuro el script start para que corra nodemon en ese archivo
+6- puedo instalar morgan para que vaya tirando los requests por consola: npm i morgan. Dentro del index.js lo requiero y configuro el middleware:
+   app.use(morgan('dev'));
+7- en consola npm start y se levanta el servidor y queda escuchando 
+8- abro localhost:3000 en el browser
+9- creo la carpeta router con mis archivos de ruteo.
+Importante:
+    - dentro de los archivos de las rutas requiero express, requiero la función express.Router() y exporto la variable de ese router
+    - dentro del index tengo que requerir el router desde el archivo de las rutas y tengo que usar el middleware para indicarle en qué ruta usa ese router;
+    ej:  app.use('/songs', songsRouter);
+    - dentro del index acordarse de usar el middleware para leer datos del body: setear el json que seguramente uso: app.use(express.json());
+10- creo la carpeta model en donde simulo mi base de datos y ahí mismo voy a hacer un module.exports de las funciones que voy a crear que afecten al array en este caso
+11- dentro de los archivos de rutas me traigo las funciones que voy a usar
+
+MODULARIZACIÓN:
+index --> middleware, rutas con sus routers, app escuchando
+ruteo --> recibe request, parsea los datos, llamar a alguna función para que resuelva el pedido, capturar la respuesta y enviarla
+lógica --> todo lo que es lógica de procesamiento está en este archivo
+base de datos --> en nuestro caso un json

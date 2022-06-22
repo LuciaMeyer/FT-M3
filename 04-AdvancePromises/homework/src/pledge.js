@@ -22,7 +22,7 @@ function $Promise (executor) {
     this._handlerGroups = []
     executor(this._internalResolve.bind(this), this._internalReject.bind(this))
     
-};
+}
 
 $Promise.prototype._internalResolve = function(value) {
     if (this._state === 'pending') {
