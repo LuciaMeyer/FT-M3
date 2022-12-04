@@ -1,14 +1,12 @@
-![HenryLogo](https://d31uz8lwfmyn8g.cloudfront.net/Assets/logo-henry-white-lg.png)
+Para ejecutar los test dentro de cada carpeta ```homework``` hacer:
 
----
+```
+npm install
+npm test
+```
 
-### Podes ver el contenido de todo el repositorio en formato web tipeando `npm install` y `npm start` e ingresando luego a <http://localhost:8080>
-
----
-
-# Módulo 3
-
-#### Back End
+## Bootcamp Henry Módulo 3 - Back-End
+30/5/22 - 25/6/2022
 
 <div class="hide">
 

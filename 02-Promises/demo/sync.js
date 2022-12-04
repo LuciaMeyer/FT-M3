@@ -38,7 +38,7 @@ primerMetodo()
    });
 
 
-p1.then(funcion(valordep1) {
+p1.then(function(valordep1) {
   return p2; // si p2  es una promesa;
 }).then(function(valordeP2) {
   return p3; // si p3 es otra promesa;
