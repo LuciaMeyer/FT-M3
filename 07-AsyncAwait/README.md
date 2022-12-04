@@ -411,8 +411,4 @@ Por eso mismo, ustedes que ya entienden a la perfección el funcionamiento de pr
 
 Por último podríamos pensar que Async/Await tomó y combinó las ideas de Generators junto con Promesas: ***Async/Await = Generators + Promises***
 
-## Homework 2
-
-Completa la tarea descrita en el archivo [README](https://github.com/soyHenry/FT-M3/tree/master/07-AsyncAwait/AsyncAwait/homework/)
-
-[⬆️ subir](#Async/Await-y-Generators)
+[⬆️ subir](#generators)

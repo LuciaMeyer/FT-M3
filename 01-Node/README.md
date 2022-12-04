@@ -545,8 +545,4 @@ Como vemos, primero se ejecutó el segundo console log, luego el console log del
 
 Bien! Ahora estamos listos para empezar a crear nuestro propio servidor web usando estos conceptos!
 
-## Homework
-
-Completa la tarea descrita en el archivo [README](https://github.com/soyHenry/FT-M3/tree/master/01-Node/homework)
-
-[⬆️ subir](#Introducción-a-Node.JS)
+[⬆️ subir](#conceptos)

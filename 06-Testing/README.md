@@ -249,8 +249,4 @@ describe.only('Invalid inputs', () => {
 
 ![describe only](/_src/assets/06-Testing/describe-only.png)
 
-## Homework
-
-Completa la tarea descrita en el archivo [README](https://github.com/soyHenry/FT-M3/tree/master/06-Testing/homework/)
-
 [⬆️ subir](#Software-Testing)

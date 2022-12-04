@@ -257,8 +257,5 @@ Listo! ahora podemos usar las Promesas de Bluebierd mejorando la performance de 
 
 Para ver todo lo que se puede hacer con _Promises_ podemos ir a leer la [documentación](http://bluebirdjs.com/docs/api-reference.html) de Bluebird.
 
-## Homework
-
-Completa la tarea descrita en el archivo [README](https://github.com/soyHenry/FT-M3/tree/master/02-Promises/homework)
 
 [⬆️ subir](#Promises)

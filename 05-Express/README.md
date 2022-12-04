@@ -472,8 +472,4 @@ Además de ese, existen otros cors headers. Algunos de ellos son:
 
 Otra forma que tenemos para habilitar las solicitudes CORS pueden ser librerías que manejen las autorizaciones por nosotros a modo de middleware. Por ejemplo, el módulo [cors](https://www.npmjs.com/package/cors).
 
-## Homework
-
-Completa la tarea descrita en el archivo [README](https://github.com/soyHenry/FT-M3/tree/master/05-Express/homework/)
-
 [⬆️ subir](#Express)
